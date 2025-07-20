@@ -11,6 +11,7 @@ export function IphoneBackground({ background }: { background: Background }) {
       </div>
     );
   } else if (background === 'home') {
+    // TODO: Add correct background
     return <div className="absolute top-0 left-0 w-full h-full bg-bg-brand rounded-[40px]" />;
   }
 }

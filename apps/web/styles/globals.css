@@ -76,8 +76,8 @@
   --color-border-secondary: var(--gray-700);
 
   /* Button */
-  --color-button-brand: var(--color-brand-200);
-  --color-button-brand-hover: var(--color-brand-300);
+  --color-button-brand: var(--color-brand-500);
+  --color-button-brand-hover: var(--color-brand-600);
 
   /* Shadows */
   --shadow-xs: 0 1px 1px rgba(255, 255, 255, 0.03);
