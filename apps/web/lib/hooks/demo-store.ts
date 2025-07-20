@@ -5,10 +5,12 @@ type DemoPage = 'home' | 'record';
 
 type DemoState = {
   demoPage: DemoPage;
+  setDemoPage: (demoPage: DemoPage) => void;
+  getDemoPage: () => DemoPage;
 };
 
-const initialDemoState: DemoState = {
-  demoPage: 'home',
+const initialDemoState: Pick<DemoState, 'demoPage'> = {
+  demoPage: 'record',
 };
 
 export const useDemoStore = create<DemoState>()(
