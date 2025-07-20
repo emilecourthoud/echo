@@ -1,12 +1,18 @@
 import { Memory } from '../contants';
 import { MEMORIES } from '../mock-data';
 
-export function MemoryTimeline() {
-  const memories = MEMORIES;
+export function MemoryTimeline({ selectedTagId }: { selectedTagId: number }) {
+  // Filter memories based on selected tag
+  const filteredMemories =
+    selectedTagId === 0
+      ? MEMORIES // Show all memories when "All" (id: 0) is selected
+      : MEMORIES.filter((memory) => memory.tags.includes(selectedTagId.toString()));
+
+  const memories = [...filteredMemories].sort((a, b) => b.date.getTime() - a.date.getTime());
 
   return (
     <div className="flex flex-col gap-1 w-full h-full mt-4">
-      <span className="text-xl font-medium">Timeline</span>
+      <span className="text-lg font-medium">Timeline</span>
       <div className="overflow-y-auto pb-6 flex flex-col gap-2">
         {memories.map((memory) => (
           <MemoryItem key={memory.id} memory={memory} />

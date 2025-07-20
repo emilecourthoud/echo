@@ -2,7 +2,7 @@ import { Mic } from 'lucide-react';
 import { DemoPage, useDemoStore } from '@/lib/hooks/demo-store';
 import { TagList } from './tag-list';
 
-export function HomeHeader() {
+export function HomeHeader({ selectedTagId, onTagSelect }: { selectedTagId: number; onTagSelect: (tagId: number) => void }) {
   const handleDemoPageChange = (demoPage: DemoPage) => {
     useDemoStore.setState({ demoPage });
   };
@@ -19,7 +19,7 @@ export function HomeHeader() {
           <Mic className="w-4 h-4" />
         </button>
       </div>
-      <TagList selectedTagIdx={0} />
+      <TagList selectedTagIdx={selectedTagId} onTagSelect={onTagSelect} />
     </div>
   );
 }
