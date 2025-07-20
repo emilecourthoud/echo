@@ -1,14 +1,22 @@
 'use client';
 
 import { Iphone18Mockup } from '@/ui/pages/website/animated-demo/iphone-16-mockup';
-import { DemoPage, useDemoStore } from '@/lib/hooks/demo-store';
+import { useDemoStore } from '@/lib/hooks/demo-store';
 import { Button } from '@/ui/components';
 import { Activity, Mic, Pause, Save } from 'lucide-react';
 import { AnimatedPictogram } from './animated-pictogram';
 import { DemoHeader } from './demo-header';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type Status = 'idle' | 'recording' | 'paused';
+
+// Speech recognition type definitions
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 
 export function Demo() {
   const demoPage = useDemoStore((state) => state.getDemoPage());
@@ -25,20 +33,143 @@ export function Demo() {
 }
 
 function DemoBody({ status, setStatus }: { status: Status; setStatus: (status: Status) => void }) {
-  const demoTrascript =
-    'This is a longer demo transcript that provides more detailed information about the functionality and features of the application. It serves as a guide to help users understand how to interact with the demo effectively and make the most out of their experience. This is a longer demo transcript that provides more detailed information about the functionality and features of the application. It serves as a guide to help users understand how to interact with the demo effectively and make the most out of their experience. This is a longer demo transcript that provides more detailed information about the functionality and features of the application. It serves as a guide to help users understand how to interact with the demo effectively and make the most out of their experience. This is a longer demo transcript that provides more detailed information about the functionality and features of the application. It serves as a guide to help users understand how to interact with the demo effectively and make the most out of their experience. This is a longer demo transcript that provides more detailed information about the functionality and features of the application. It serves as a guide to help users understand how to interact with the demo effectively and make the most out of their experience. This is a longer demo transcript that provides more detailed information about the functionality and features of the application. It serves as a guide to help users understand how to interact with the demo effectively and make the most out of their experience.';
-  const [transcript, setTranscript] = useState<string>(demoTrascript);
+  const [transcript, setTranscript] = useState<string>('');
+  const [finalTranscript, setFinalTranscript] = useState<string>('');
+  const [isSupported, setIsSupported] = useState<boolean>(true);
+  const recognitionRef = useRef<any>(null);
+
+  useEffect(() => {
+    // Check if speech recognition is supported
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      setIsSupported(false);
+      return;
+    }
+
+    // Initialize speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event: any) => {
+      let interimTranscript = '';
+      let finalTranscriptPart = '';
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcriptPart = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscriptPart += transcriptPart;
+        } else {
+          interimTranscript += transcriptPart;
+        }
+      }
+
+      setFinalTranscript((prev) => prev + finalTranscriptPart);
+      setTranscript((prev) => prev + finalTranscriptPart + interimTranscript);
+    };
+
+    recognition.onend = () => {
+      if (status === 'recording') {
+        // If it stops unexpectedly while recording, restart it
+        recognition.start();
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      if (event.error === 'not-allowed') {
+        alert('Microphone access was denied. Please allow microphone access in your browser settings and refresh the page.');
+      }
+    };
+
+    recognitionRef.current = recognition;
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, [status]);
+
+  const startRecording = () => {
+    if (!isSupported) {
+      alert('Speech recognition is not supported in this browser. Please try Chrome or Edge.');
+      return;
+    }
+
+    setTranscript('');
+    setFinalTranscript('');
+    setStatus('recording');
+
+    if (recognitionRef.current) {
+      recognitionRef.current.start();
+    }
+  };
+
+  const pauseRecording = () => {
+    setStatus('paused');
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+  };
+
+  const discardRecording = () => {
+    setStatus('idle');
+    setTranscript('');
+    setFinalTranscript('');
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+  };
+
+  const saveRecording = async () => {
+    // TODO Remove the return
+    return;
+
+    if (!finalTranscript.trim()) {
+      alert('No transcript to save');
+      return;
+    }
+
+    try {
+      const webhookUrl = 'https://n8n.zolverz.com/webhook/4df2111e-46e0-4c60-ad56-9a1c35da9856';
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          transcript: finalTranscript.trim(),
+          recordedAt: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`n8n webhook returned status ${response.status}`);
+      }
+
+      // Reset after success
+      setTimeout(() => {
+        setStatus('idle');
+        setTranscript('');
+        setFinalTranscript('');
+      }, 2000);
+    } catch (error) {
+      console.error('Error sending note to n8n:', error);
+    }
+  };
 
   switch (status) {
     case 'recording':
       return (
         <>
-          <DemoBodyWithTranscript isRecording={true} transcript={transcript} />
+          <DemoBodyWithTranscript isRecording={true} transcript={transcript || 'Listening...'} />
           <div className="grid grid-cols-2 gap-2 w-full justify-center">
-            <Button variant="ghost" rounded className="w-full px-0" onClick={() => setStatus('idle')}>
+            <Button variant="ghost" rounded className="w-full px-0" onClick={discardRecording}>
               Discard
             </Button>
-            <Button variant="outline" rounded onClick={() => setStatus('paused')}>
+            <Button variant="outline" rounded onClick={pauseRecording}>
               <Pause className="w-4 h-4" />
               Pause
             </Button>
@@ -48,12 +179,12 @@ function DemoBody({ status, setStatus }: { status: Status; setStatus: (status: S
     case 'paused':
       return (
         <>
-          <DemoBodyWithTranscript isRecording={false} transcript={transcript} />
+          <DemoBodyWithTranscript isRecording={false} transcript={transcript || 'No transcript available'} />
           <div className="grid grid-cols-2 gap-2 w-full justify-center">
-            <Button variant="ghost" rounded className="w-full px-0" onClick={() => setStatus('idle')}>
+            <Button variant="ghost" rounded className="w-full px-0" onClick={discardRecording}>
               Discard
             </Button>
-            <Button variant="outline" rounded className="w-full px-0" onClick={() => setStatus('idle')}>
+            <Button variant="outline" rounded className="w-full px-0" onClick={saveRecording}>
               <Save className="w-4 h-4" />
               Save
             </Button>
@@ -73,7 +204,7 @@ function DemoBody({ status, setStatus }: { status: Status; setStatus: (status: S
               <Activity className="w-4 h-4" />
               Interact
             </Button>
-            <Button variant="outline" rounded className="w-full" onClick={() => setStatus('recording')}>
+            <Button variant="outline" rounded className="w-full" onClick={startRecording}>
               <Mic className="w-4 h-4" />
               Record
             </Button>
@@ -91,7 +222,7 @@ function DemoBodyWithTranscript({ isRecording, transcript }: { isRecording: bool
           {isRecording ? 'Recording...' : 'Recording paused'}
         </span>
       </div>
-      <div className="text-gray-500 text-sm w-full overflow-auto">{transcript}</div>
+      <div className="text-gray-500 text-sm w-full overflow-auto flex-1">{transcript}</div>
     </div>
   );
 }
