@@ -19,6 +19,8 @@ export function RecordingBody() {
   const [finalTranscript, setFinalTranscript] = useState<string>('');
   const [isSupported, setIsSupported] = useState<boolean>(true);
   const recognitionRef = useRef<any>(null);
+  const finalTranscriptRef = useRef<string>('');
+  const isStoppingRef = useRef<boolean>(false);
 
   useEffect(() => {
     // Check if speech recognition is supported
@@ -47,21 +49,34 @@ export function RecordingBody() {
         }
       }
 
-      setFinalTranscript((prev) => prev + finalTranscriptPart);
-      setTranscript((prev) => prev + finalTranscriptPart + interimTranscript);
+      if (finalTranscriptPart) {
+        finalTranscriptRef.current += finalTranscriptPart;
+        setFinalTranscript(finalTranscriptRef.current);
+      }
+
+      // For display, combine final transcript with current interim results
+      setTranscript(finalTranscriptRef.current + interimTranscript);
     };
 
     recognition.onend = () => {
-      if (status === 'recording') {
-        // If it stops unexpectedly while recording, restart it
-        recognition.start();
+      // Only restart if we're still recording and not intentionally stopping
+      if (status === 'recording' && !isStoppingRef.current) {
+        try {
+          recognition.start();
+        } catch (error) {
+          console.error('Failed to restart recognition:', error);
+        }
       }
+      isStoppingRef.current = false; // Reset the stopping flag
     };
 
     recognition.onerror = (event: any) => {
       console.error('Speech recognition error:', event.error);
       if (event.error === 'not-allowed') {
         alert('Microphone access was denied. Please allow microphone access in your browser settings and refresh the page.');
+      } else if (event.error === 'aborted') {
+        // Aborted errors are usually intentional (when stopping/discarding), so we can ignore them
+        console.log('Speech recognition was aborted (likely intentional)');
       }
     };
 
@@ -69,7 +84,12 @@ export function RecordingBody() {
 
     return () => {
       if (recognitionRef.current) {
-        recognitionRef.current.stop();
+        isStoppingRef.current = true;
+        try {
+          recognitionRef.current.stop();
+        } catch (error) {
+          // Ignore cleanup errors
+        }
       }
     };
   }, [status]);
@@ -80,28 +100,59 @@ export function RecordingBody() {
       return;
     }
 
-    setTranscript('');
-    setFinalTranscript('');
-    setStatus('recording');
-
+    // Ensure any previous recognition is stopped
     if (recognitionRef.current) {
-      recognitionRef.current.start();
+      isStoppingRef.current = true;
+      try {
+        recognitionRef.current.stop();
+      } catch (error) {
+        // Ignore errors if recognition wasn't running
+      }
     }
+
+    // Small delay to ensure previous recognition is fully stopped
+    setTimeout(() => {
+      setTranscript('');
+      setFinalTranscript('');
+      finalTranscriptRef.current = '';
+      isStoppingRef.current = false;
+      setStatus('recording');
+
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.start();
+        } catch (error) {
+          console.error('Failed to start recognition:', error);
+          setStatus('idle');
+        }
+      }
+    }, 100);
   };
 
   const pauseRecording = () => {
+    isStoppingRef.current = true;
     setStatus('paused');
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try {
+        recognitionRef.current.stop();
+      } catch (error) {
+        console.error('Error stopping recognition:', error);
+      }
     }
   };
 
   const discardRecording = () => {
+    isStoppingRef.current = true;
     setStatus('idle');
     setTranscript('');
     setFinalTranscript('');
+    finalTranscriptRef.current = '';
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try {
+        recognitionRef.current.stop();
+      } catch (error) {
+        console.error('Error stopping recognition:', error);
+      }
     }
   };
 
@@ -136,6 +187,7 @@ export function RecordingBody() {
         setStatus('idle');
         setTranscript('');
         setFinalTranscript('');
+        finalTranscriptRef.current = '';
       }, 2000);
     } catch (error) {
       console.error('Error sending note to n8n:', error);
