@@ -1,6 +1,6 @@
 {
   "shared": {
-    "secondBrain": "SecondBrain",
+    "Echo": "Echo",
     "buttons": {
       "share": "Share",
       "download": "Download",

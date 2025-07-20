@@ -25,7 +25,7 @@ export default function NotFoundPage() {
   return (
     <div className="flex relative flex-col min-h-screen overflow-hidden">
       <div className="z-10 flex-1 flex flex-col items-center justify-center text-center px-4 gap-6">
-        <img src="/pictogram.svg" alt="SecondBrain" className="size-24" />
+        <img src="/pictogram.svg" alt="Echo" className="size-24" />
         <h1 className="text-4xl font-bold">Oops, this page is not found!</h1>
         <p className="text-xl mb-3 font-medium text-text-secondary">Navigating back to home in {countdown}...</p>
       </div>

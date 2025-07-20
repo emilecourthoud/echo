@@ -12,12 +12,12 @@ export function Logo({ withPictogram = false }: IProps) {
       {withPictogram && (
         <img
           src="/pictogram.svg"
-          alt="SecondBrain"
+          alt="Echo"
           className="size-8
       "
         />
       )}
-      <span className="text-xl font-semibold text-text-primary">{t('secondBrain')}</span>
+      <span className="text-xl font-semibold text-text-primary">{t('Echo')}</span>
     </div>
   );
 }

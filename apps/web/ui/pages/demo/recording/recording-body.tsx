@@ -146,7 +146,7 @@ export function RecordingBody() {
     case 'recording':
       return (
         <>
-          <RecordingBodyWithTranscript isRecording={true} transcript={transcript || 'Listening...'} />
+          <RecordingBodyWithTranscript isRecording={true} transcript={transcript || '...'} />
           <div className="grid grid-cols-2 gap-2 w-full justify-center">
             <Button variant="ghost" rounded className="w-full px-0" onClick={discardRecording}>
               Discard
