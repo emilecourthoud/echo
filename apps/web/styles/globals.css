@@ -1,0 +1,103 @@
+@import 'tailwindcss';
+
+@theme {
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+  --transparent: transparent;
+  --gray-50: hsl(0, 0%, 98%);
+  --gray-100: hsl(0, 0%, 96%);
+  --gray-200: hsl(0, 0%, 93%);
+  --gray-300: hsl(0, 0%, 88%);
+  --gray-400: hsl(0, 0%, 74%);
+  --gray-500: hsl(0, 0%, 62%);
+  --gray-600: hsl(0, 0%, 46%);
+  --gray-700: hsl(0, 0%, 38%);
+  --gray-800: hsl(0, 0%, 26%);
+  --gray-900: hsl(0, 0%, 16%);
+  --gray-950: hsl(0, 0%, 9%);
+  
+  /* Brand colors */
+  --brand-50: hsl(142, 75%, 20%);
+  --brand-100: hsl(142, 75%, 25%);
+  --brand-200: hsl(142, 75%, 30%);
+  --brand-300: hsl(142, 75%, 35%);
+  --brand-400: hsl(142, 75%, 40%);
+  --brand-500: hsl(142, 75%, 45%);
+  --brand-600: hsl(142, 75%, 45%);
+  --brand-700: hsl(142, 75%, 45%);
+  --brand-800: hsl(142, 75%, 45%);
+  --brand-900: hsl(142, 75%, 45%);
+  --brand-950: hsl(142, 75%, 45%);
+
+  /* Yellow */
+  --yellow-25: hsl(35, 100%, 98%);
+  --yellow-50: hsl(35, 100%, 97%);
+  --yellow-100: hsl(35, 100%, 92%);
+  --yellow-200: hsl(35, 100%, 82%);
+  --yellow-300: hsl(35, 100%, 71%);
+  --yellow-400: hsl(35, 100%, 60%);
+  --yellow-500: hsl(35, 100%, 50%);
+  --yellow-600: hsl(35, 100%, 44%);
+  --yellow-700: hsl(35, 100%, 35%);
+  --yellow-800: hsl(35, 100%, 26%);
+  --yellow-900: hsl(35, 100%, 17%);
+  --yellow-950: hsl(35, 100%, 12%);
+
+  /* Red colors */
+  --red-25: hsl(0, 100%, 98%);
+  --red-50: hsl(0, 80%, 97%);
+  --red-100: hsl(0, 85%, 90%);
+  --red-200: hsl(0, 85%, 90%);
+  --red-300: hsl(0, 85%, 80%);
+  --red-400: hsl(0, 80%, 75%);
+  --red-500: hsl(5, 93%, 69%);
+  --red-600: hsl(0, 76%, 57%);
+  --red-700: hsl(0, 76%, 47%);
+  --red-800: hsl(0, 76%, 37%);
+  --red-900: hsl(0, 76%, 27%);
+  --red-950: hsl(0, 76%, 17%);
+
+  /* Typography */
+  --color-text-brand: var(--brand-200);
+  --color-text-primary: var(--gray-50);
+  --color-text-secondary: var(--gray-300);
+  --color-text-tertiary: var(--gray-400);
+  --color-text-tooltip: var(--gray-900);
+
+  /* Backgrounds */
+  --color-bg-brand: var(--brand-200);
+  --color-bg-primary: var(--black);
+  --color-bg-secondary: var(--gray-950);
+  --color-bg-tooltip: var(--gray-50);
+
+  /* Borders */
+  --color-border-brand: var(--brand-200);
+  --color-border-primary: var(--gray-800);
+  --color-border-secondary: var(--gray-700);
+
+  /* Button */
+  --color-button-brand: var(--brand-200);
+  --color-button-brand-hover: var(--brand-300);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 1px rgba(255, 255, 255, 0.03);
+  --shadow-sm: 0 1px 2px rgba(255, 255, 255, 0.05), 0 1px 1px rgba(255, 255, 255, 0.03);
+  --shadow-md: 0 2px 4px rgba(255, 255, 255, 0.05), 0 1px 3px rgba(255, 255, 255, 0.03);
+  --shadow-lg: 0 4px 8px rgba(255, 255, 255, 0.05), 0 2px 4px rgba(255, 255, 255, 0.03);
+}
+
+@keyframes pulse-shadow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--brand-700), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--brand-700), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--brand-700), 0);
+  }
+}
+
+.animate-pulse-shadow {
+  animation: pulse-shadow 2s infinite;
+}

@@ -1,0 +1,42 @@
+{
+  "website": {
+    "hero": {
+      "topBanner": "Introducing Second Brain 0.1",
+      "title": {
+        "part1": "Your AI-powered",
+        "part2": "second brain",
+        "part3": "for",
+        "part4": {
+          "healthTracking": "health tracking",
+          "wellnessInsights": "wellness insights",
+          "personalGrowth": "personal growth"
+        }
+      },
+      "description": "Voice based second brain for seamless note taking and data retrieval"
+    },
+    "callToAction": {
+      "testMeOut": "Try Interactive Mode",
+      "downloadApp": "Download App"
+    },
+    "animatedDemo": {
+      "steps": {
+        "incoming-call": {
+          "title": "Record Note",
+          "description": "Share how you're feeling today"
+        },
+        "agent-handle": {
+          "title": "AI Analysis",
+          "description": "Get insights connected to your history"
+        },
+        "agent-notification": {
+          "title": "Follow Up Chat",
+          "description": "Explore factors and set reminders"
+        },
+        "call-ended": {
+          "title": "Smart Tracking",
+          "description": "Receive personalized notifications"
+        }
+      }
+    }
+  }
+}

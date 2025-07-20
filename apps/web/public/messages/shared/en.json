@@ -1,0 +1,11 @@
+{
+  "shared": {
+    "secondBrain": "SecondBrain",
+    "buttons": {
+      "share": "Share",
+      "download": "Download",
+      "continue": "Continue",
+      "test": "Test"
+    }
+  }
+}
