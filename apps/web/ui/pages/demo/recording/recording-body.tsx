@@ -5,6 +5,14 @@ import { AnimatedPictogram } from '../animated-pictogram';
 
 type Status = 'idle' | 'recording' | 'paused';
 
+// Speech recognition type definitions
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 export function RecordingBody() {
   const [status, setStatus] = useState<Status>('idle');
   const [transcript, setTranscript] = useState<string>('');
