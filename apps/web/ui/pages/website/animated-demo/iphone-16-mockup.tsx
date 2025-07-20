@@ -1,8 +1,10 @@
 import { cn } from '@/lib/utils';
+import { Background } from './constants';
+import { IphoneBackground } from './iphone-background';
 
 interface Iphone18MockupProps {
   children?: React.ReactNode;
-  background: 'home' | 'call' | 'secondBrain';
+  background: Background;
   className?: string;
 }
 
@@ -54,18 +56,8 @@ export function Iphone18Mockup({ children, background, className }: Iphone18Mock
       <div className="absolute top-40 -left-1.5 w-1.5 h-10 bg-border-primary rounded-l-md" />
       <div className="absolute top-52 -left-1.5 w-1.5 h-10 bg-border-primary rounded-l-md" />
 
-      {/* Wallpaper */}
-      {background === 'call' ? (
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-orange-500 to-blue-600 rounded-[40px]" />
-      ) : background === 'secondBrain' ? (
-        <div className="absolute top-0 left-0 w-full h-full bg-bg-brand rounded-[40px]" />
-      ) : (
-        <img
-          src="/assets/images/iphone-wallpaper.jpg"
-          alt="iphone-wallpaper"
-          className="absolute top-0 left-0 w-full h-full object-cover rounded-[40px]"
-        />
-      )}
+      {/* Background */}
+      <IphoneBackground background={background} />
 
       {/* Screen content */}
       <div className={`relative w-full h-full pt-12 px-2 pb-4 flex flex-col overflow-hidden rounded-[40px] z-100`}>{children}</div>

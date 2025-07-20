@@ -12,7 +12,7 @@ export function Logo({ withPictogram = false }: IProps) {
       {withPictogram && (
         <img
           src="/pictogram.svg"
-          alt="Second brain"
+          alt="SecondBrain"
           className="size-8
       "
         />

@@ -15,19 +15,19 @@
   --gray-800: hsl(0, 0%, 26%);
   --gray-900: hsl(0, 0%, 16%);
   --gray-950: hsl(0, 0%, 9%);
-  
+
   /* Brand colors */
-  --brand-50: hsl(142, 75%, 20%);
-  --brand-100: hsl(142, 75%, 25%);
-  --brand-200: hsl(142, 75%, 30%);
-  --brand-300: hsl(142, 75%, 35%);
-  --brand-400: hsl(142, 75%, 40%);
-  --brand-500: hsl(142, 75%, 45%);
-  --brand-600: hsl(142, 75%, 45%);
-  --brand-700: hsl(142, 75%, 45%);
-  --brand-800: hsl(142, 75%, 45%);
-  --brand-900: hsl(142, 75%, 45%);
-  --brand-950: hsl(142, 75%, 45%);
+  --color-brand-50: hsl(160, 75%, 85%);
+  --color-brand-100: hsl(160, 75%, 75%);
+  --color-brand-200: hsl(160, 75%, 65%);
+  --color-brand-300: hsl(160, 75%, 55%);
+  --color-brand-400: hsl(160, 75%, 45%);
+  --color-brand-500: hsl(160, 75%, 35%);
+  --color-brand-600: hsl(160, 75%, 25%);
+  --color-brand-700: hsl(160, 75%, 20%);
+  --color-brand-800: hsl(160, 75%, 15%);
+  --color-brand-900: hsl(160, 75%, 10%);
+  --color-brand-950: hsl(160, 75%, 5%);
 
   /* Yellow */
   --yellow-25: hsl(35, 100%, 98%);
@@ -58,26 +58,26 @@
   --red-950: hsl(0, 76%, 17%);
 
   /* Typography */
-  --color-text-brand: var(--brand-200);
+  --color-text-brand: var(--color-brand-200);
   --color-text-primary: var(--gray-50);
   --color-text-secondary: var(--gray-300);
   --color-text-tertiary: var(--gray-400);
   --color-text-tooltip: var(--gray-900);
 
   /* Backgrounds */
-  --color-bg-brand: var(--brand-200);
+  --color-bg-brand: var(--color-brand-200);
   --color-bg-primary: var(--black);
   --color-bg-secondary: var(--gray-950);
   --color-bg-tooltip: var(--gray-50);
 
   /* Borders */
-  --color-border-brand: var(--brand-200);
+  --color-border-brand: var(--color-brand-200);
   --color-border-primary: var(--gray-800);
   --color-border-secondary: var(--gray-700);
 
   /* Button */
-  --color-button-brand: var(--brand-200);
-  --color-button-brand-hover: var(--brand-300);
+  --color-button-brand: var(--color-brand-200);
+  --color-button-brand-hover: var(--color-brand-300);
 
   /* Shadows */
   --shadow-xs: 0 1px 1px rgba(255, 255, 255, 0.03);
@@ -88,13 +88,13 @@
 
 @keyframes pulse-shadow {
   0% {
-    box-shadow: 0 0 0 0 rgba(var(--brand-700), 0.4);
+    box-shadow: 0 0 0 0 rgba(var(--color-brand-700), 0.4);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(var(--brand-700), 0);
+    box-shadow: 0 0 0 10px rgba(var(--color-brand-700), 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(var(--brand-700), 0);
+    box-shadow: 0 0 0 0 rgba(var(--color-brand-700), 0);
   }
 }
 

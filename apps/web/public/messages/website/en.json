@@ -1,10 +1,10 @@
 {
   "website": {
     "hero": {
-      "topBanner": "Introducing Second Brain 0.1",
+      "topBanner": "Introducing SecondBrain 0.1",
       "title": {
         "part1": "Your AI-powered",
-        "part2": "second brain",
+        "part2": "SecondBrain",
         "part3": "for",
         "part4": {
           "healthTracking": "health tracking",
@@ -12,7 +12,7 @@
           "personalGrowth": "personal growth"
         }
       },
-      "description": "Voice based second brain for seamless note taking and data retrieval"
+      "description": "Voice based SecondBrain for seamless note taking and data retrieval"
     },
     "callToAction": {
       "testMeOut": "Try Interactive Mode",

@@ -46,13 +46,12 @@ export function AnimatedDemo() {
     setIsAutoPlaying(true);
   };
 
-  const background = step === 'incoming-call' ? 'call' : step === 'agent-notification' ? 'secondBrain' : 'home';
-
   return (
     <div className="flex flex-col items-center gap-4 mt-8">
       <SequenceSteps step={step} progress={progress} handleStepClick={handleStepClick} />
 
-      <Iphone18Mockup background={background}>
+      {/* TODO: Add correct background */}
+      <Iphone18Mockup background={'record'}>
         {/* <AnimatePresence mode="wait">
           {step === 0 && <... />}
         </AnimatePresence> */}

@@ -6,9 +6,9 @@ export function Background({ variant = 'green' }: { variant?: 'blue' | 'green' }
       third: 'from-[#0D0D38] to-[#1B4165]',
     },
     green: {
-      first: 'from-[#002800] to-[#0B5D1E]',
-      second: 'from-[#003311] to-[#0D6B24]',
-      third: 'from-[#013B14] to-[#0F7829]',
+      first: 'from-brand-700 to-brand-950',
+      second: 'from-brand-800 to-brand-900',
+      third: 'from-brand-900 to-brand-950',
     },
   };
 
