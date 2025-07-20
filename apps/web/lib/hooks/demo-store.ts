@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-type DemoPage = 'home' | 'record';
+export type DemoPage = 'home' | 'record';
 
 type DemoState = {
   demoPage: DemoPage;
