@@ -5,7 +5,6 @@ import { useDemoStore } from '@/lib/hooks/demo-store';
 import { RecordingHeader } from './recording/recording-header';
 import { RecordingBody } from './recording/recording-body';
 import { HomeHeader } from './home/home-header';
-import { TagList } from './home/tag-list';
 import { MemoryTimeline } from './home/memory-timeline';
 
 export function Demo() {
@@ -21,7 +20,6 @@ export function Demo() {
       ) : (
         <>
           <HomeHeader />
-          <TagList />
           <MemoryTimeline />
         </>
       )}
